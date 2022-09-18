@@ -13,6 +13,8 @@ const puppyData = require('./puppyData')
 const pupFunc = require('./pupFunc')
 const findpup = require('./findpup');
 const { find } = require('lodash');
+const findPup2 = require('./findpup2');
+const { text } = require('express');
 
 
 app.get('/', (req, res) => {
@@ -38,15 +40,19 @@ app.get('/main', (req, res)=>{
     res.send(pupFunc(pups))
 })
 //cleaned up nicely with imported findpup function
+
 app.get(`/posts/:id`, (req, res)=>{
     const id = req.params.id;
     const pup = puppyData.find(id);
     let pups = puppyData.list();
-    if(!pup.id){
+
+     if(!pup.id){
         throw new Error('Not found')
     }
-    res.send(findpup(pups, id));
+    res.send(findPup2(pups[id -1]));
 })
+
+
 
 app.use((err,req,res,next)=>{
     const html = `
